@@ -29,6 +29,7 @@ export function useAgroData() {
     sensorHistory: [],
   });
   const historyRef = useRef<{ time: string; value: number }[]>([]);
+  const sensorHistoryRef = useRef<{ time: string; data: SensorData }[]>([]);
 
   const fetchData = useCallback(async () => {
     try {
