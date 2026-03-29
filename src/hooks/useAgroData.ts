@@ -16,6 +16,7 @@ export interface AgroState {
   error: boolean;
   lastUpdated: Date | null;
   tempHistory: { time: string; value: number }[];
+  sensorHistory: { time: string; data: SensorData }[];
 }
 
 export function useAgroData() {
@@ -25,8 +26,10 @@ export function useAgroData() {
     error: false,
     lastUpdated: null,
     tempHistory: [],
+    sensorHistory: [],
   });
   const historyRef = useRef<{ time: string; value: number }[]>([]);
+  const sensorHistoryRef = useRef<{ time: string; data: SensorData }[]>([]);
 
   const fetchData = useCallback(async () => {
     try {
@@ -41,12 +44,18 @@ export function useAgroData() {
         { time: timeStr, value: json.temp },
       ];
 
+      sensorHistoryRef.current = [
+        ...sensorHistoryRef.current.slice(-19),
+        { time: timeStr, data: json },
+      ];
+
       setState({
         data: json,
         loading: false,
         error: false,
         lastUpdated: now,
         tempHistory: [...historyRef.current],
+        sensorHistory: [...sensorHistoryRef.current],
       });
     } catch {
       setState((prev) => ({ ...prev, loading: false, error: true }));

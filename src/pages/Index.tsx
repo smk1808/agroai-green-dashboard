@@ -6,9 +6,11 @@ import { PumpStatus } from "@/components/dashboard/PumpStatus";
 import { AiInsightPanel } from "@/components/dashboard/AiInsightPanel";
 import { TemperatureChart } from "@/components/dashboard/TemperatureChart";
 import { SystemInfo } from "@/components/dashboard/SystemInfo";
+import { CropRecommendation } from "@/components/dashboard/CropRecommendation";
+import { CropHealthChart } from "@/components/dashboard/CropHealthChart";
 
 const Index = () => {
-  const { data, loading, error, lastUpdated, tempHistory } = useAgroData();
+  const { data, loading, error, lastUpdated, tempHistory, sensorHistory } = useAgroData();
   const isConnected = !error && !loading;
 
   return (
@@ -30,8 +32,14 @@ const Index = () => {
         <SystemInfo lastUpdated={lastUpdated} isConnected={isConnected} loading={loading} />
       </div>
 
-      {/* Chart */}
-      <TemperatureChart data={tempHistory} loading={loading} />
+      {/* Charts Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+        <TemperatureChart data={tempHistory} loading={loading} />
+        <CropHealthChart history={sensorHistory} loading={loading} />
+      </div>
+
+      {/* Crop Recommendation */}
+      <CropRecommendation data={data} loading={loading} />
     </div>
   );
 };
