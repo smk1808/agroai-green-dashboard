@@ -16,6 +16,7 @@ export interface AgroState {
   error: boolean;
   lastUpdated: Date | null;
   tempHistory: { time: string; value: number }[];
+  sensorHistory: { time: string; data: SensorData }[];
 }
 
 export function useAgroData() {
