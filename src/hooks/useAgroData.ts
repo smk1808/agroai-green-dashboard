@@ -44,12 +44,18 @@ export function useAgroData() {
         { time: timeStr, value: json.temp },
       ];
 
+      sensorHistoryRef.current = [
+        ...sensorHistoryRef.current.slice(-19),
+        { time: timeStr, data: json },
+      ];
+
       setState({
         data: json,
         loading: false,
         error: false,
         lastUpdated: now,
         tempHistory: [...historyRef.current],
+        sensorHistory: [...sensorHistoryRef.current],
       });
     } catch {
       setState((prev) => ({ ...prev, loading: false, error: true }));
