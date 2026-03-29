@@ -26,6 +26,7 @@ export function useAgroData() {
     error: false,
     lastUpdated: null,
     tempHistory: [],
+    sensorHistory: [],
   });
   const historyRef = useRef<{ time: string; value: number }[]>([]);
 
